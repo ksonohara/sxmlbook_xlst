@@ -1,58 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- ______________________________________________________________________ -->
 <!--                                                                        -->
-<!--  sXMLBook XSLT Ver0.2.1_4                                              -->
+<!--  sXMLBook XSLT Ver0.3.0_0                                              -->
 <!--                                                                        -->
-<!--   Copyright (C) 2007-14 K.Sonohara All Right Reserved.                 -->
+<!--   Copyright (C) 2007-15 K.Sonohara All Right Reserved.                 -->
+<!--   Code released under [Mozilla Public License, version 2.0]            -->
 <!-- ______________________________________________________________________ -->
 <!--                                                                        -->
-<!--   XHTML 引数                                                           -->
+<!--   XSLT Params                                                          -->
 <!-- ______________________________________________________________________ -->
 
 <xsl:stylesheet
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0"
 >
 	<!-- ================================================================================= -->
-	<!-- 引数 -->
+	<!-- param -->
+	<!-- HTMLディレクトリ引数 -->
+	<xsl:param name="html.dir">./</xsl:param>
+	<!-- スタイルシートディレクトリ引数 -->
+	<xsl:param name="css.dir"><xsl:value-of select="$html.dir" />css/</xsl:param>
+	<!-- JavaScriptディレクトリ引数 -->
+	<xsl:param name="js.dir"><xsl:value-of select="$html.dir" />js/</xsl:param>
+	<!-- イメージディレクトリ引数 -->
+	<xsl:param name="image.dir"><xsl:value-of select="$html.dir" />images/</xsl:param>
+
+	
+	<xsl:param name="html.mode">simple</xsl:param>
+
+
+
 	<!-- HTMLタイトル -->
 	<xsl:param name="html.title"></xsl:param>
 
 	<!-- HTMLモード -->
 	<xsl:param name="html.book"></xsl:param>
 
-	<!-- スタイルシートディレクトリ引数 -->
-	<xsl:param name="css.dir">css/</xsl:param>
 	<!-- スタイルシート引数 -->
 	<xsl:param name="css.jquery"></xsl:param>
 	<!-- スタイルシート引数 -->
-	<xsl:param name="css.jquery.ui">jquery.ui.css</xsl:param>
+	<xsl:param name="css.jquery.ui">jquery-ui.css</xsl:param>
 	<!-- スタイルシート引数 -->
 	<xsl:param name="css.bootstrap">bootstrap.css</xsl:param>
 	<!-- スタイルシート引数 -->
-	<xsl:param name="css.bootstrap.dropmenu">dropdowns-enhancement.css</xsl:param>
+	<xsl:param name="css.fa">font-awesome.css</xsl:param>
+	<!-- スタイルシート引数 -->
+	<xsl:param name="css.metismenu">plugins/metisMenu.css</xsl:param>
+	<!-- スタイルシート引数 -->
+	<xsl:param name="css.morris">plugins/morris.css</xsl:param>
+	<!-- スタイルシート引数 -->
+	<xsl:param name="css.admin">sb-admin-2.css</xsl:param>
+	<!-- スタイルシート引数 -->
+	<xsl:param name="css.multiselect">bootstrap-multiselect.css</xsl:param>
 	<!-- スタイルシート引数 -->
 	<xsl:param name="css.mikan">mikan/mikan.css</xsl:param>
 
-	<!-- JavaScriptディレクトリ引数 -->
-	<xsl:param name="js.dir">js/</xsl:param>
 	<!-- JavaScript引数 -->
 	<xsl:param name="js.jquery">jquery.js</xsl:param>
 	<!-- JavaScript引数 -->
-	<xsl:param name="js.jquery.ui">jquery.ui.js</xsl:param>
+	<xsl:param name="js.jquery.ui">jquery-ui.js</xsl:param>
 	<!-- JavaScript引数 -->
 	<xsl:param name="js.bootstrap">bootstrap.js</xsl:param>
 	<!-- JavaScript引数 -->
-	<xsl:param name="js.bootstrap.dropmenu">dropdowns-enhancement.js</xsl:param>
-
+	<xsl:param name="js.morris">plugins/morris.js</xsl:param>
+	<!-- JavaScript引数 -->
+	<xsl:param name="js.metismenu">plugins/metisMenu.js</xsl:param>
+	<!-- JavaScript引数 -->
+	<xsl:param name="js.multiselect">bootstrap-multiselect.js</xsl:param>
 	<!-- JavaScript引数 -->
 	<xsl:param name="js.mikan">mikan/mikan.min.js</xsl:param>
 
-	<!-- 基本ディレクトリ引数 -->
-	<xsl:param name="html.dir">./</xsl:param>
-	<!-- イメージディレクトリ引数 -->
-	<xsl:param name="image.dir">images/</xsl:param>
 	<!-- HTMLファイル名引数 -->
 	<xsl:param name="html.file"></xsl:param>
 	<!-- HTML対象目次引数 -->
@@ -98,6 +117,12 @@
 	<!-- ヘッダ非表示引数 -->
 	<xsl:param name="header.type">title</xsl:param>
 
+
+
+
 	<!-- フッタ非表示引数 -->
-	<xsl:param name="footer.type">show</xsl:param>
+	<xsl:param name="header.mode">normal</xsl:param>
+
+	<!-- フッタ非表示引数 -->
+	<xsl:param name="footer.mode">normal</xsl:param>
 </xsl:stylesheet>

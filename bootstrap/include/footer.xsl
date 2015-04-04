@@ -1,45 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- ______________________________________________________________________ -->
 <!--                                                                        -->
-<!--  sXMLBook XSLT Ver0.2.1_4                                              -->
+<!--  sXMLBook XSLT Ver0.3.0_0                                              -->
 <!--                                                                        -->
-<!--   Copyright (C) 2007-14 K.Sonohara All Right Reserved.                 -->
+<!--   Copyright (C) 2007-15 K.Sonohara All Right Reserved.                 -->
+<!--   Code released under [Mozilla Public License, version 2.0]            -->
 <!-- ______________________________________________________________________ -->
 <!--                                                                        -->
-<!--   XHTML フッター                                                       -->
+<!--   XSLT Footer                                                          -->
 <!-- ______________________________________________________________________ -->
 
 <xsl:stylesheet
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0"
 >
 	<!-- ================================================================================= -->
-	<!-- フッダー -->
+	<!-- フッター -->
 	<xsl:template name="footer">
-		<xsl:if test="$footer.type = 'show'">
-
-			<br />
-			<br />
-			<br />
-			<br />
-
-			<div class="footer navbar-default" id="page_footer">
-				<br />
-
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-6 hidden-xs"><xsl:value-of select="./info/description" /></div>
-						<div class="col-sm-6 hidden-xs"><xsl:value-of select="./info/release" /></div>
+		<xsl:choose>
+			<xsl:when test="$footer_mode='test'">Error!</xsl:when>
+			<xsl:otherwise>
+				<footer class="container-fluid">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-6 hidden-xs"><xsl:value-of select="./info/description" /></div>
+							<div class="col-lg-6 hidden-xs"><xsl:value-of select="./info/release" /></div>
+							<div class="col-lg-12 hidden-xs"><xsl:value-of select="./info/copyright" /></div>
+						</div>
 					</div>
-					<!-- 著作権 -->
-					<div class="footer_copyright">
-						<xsl:value-of select="./info/copyright" />
-					</div>
-				</div>
-				<br />
-				<br />
-			</div>
-		</xsl:if>
+				</footer>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

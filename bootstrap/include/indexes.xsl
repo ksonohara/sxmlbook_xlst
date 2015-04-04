@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- ______________________________________________________________________ -->
 <!--                                                                        -->
-<!--  sXMLBook XSLT Ver0.2.1_4                                              -->
+<!--  sXMLBook XSLT Ver0.3.0_0                                              -->
 <!--                                                                        -->
-<!--   Copyright (C) 2007-14 K.Sonohara All Right Reserved.                 -->
+<!--   Copyright (C) 2007-15 K.Sonohara All Right Reserved.                 -->
+<!--   Code released under [Mozilla Public License, version 2.0]            -->
 <!-- ______________________________________________________________________ -->
 <!--                                                                        -->
-<!--   XHTML 目次                                                           -->
+<!--   sXML本体                                                             -->
 <!-- ______________________________________________________________________ -->
 
 <xsl:stylesheet
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0"
 >
 	<!-- ================================================================================= -->
 	<!-- 目次 -->
 	<xsl:template name="indexes">
-		<xsl:call-template name="index_item">
-			<xsl:with-param name="prefix" select="''" />
-			<xsl:with-param name="enabled" select="0" />
-			<xsl:with-param name="tree" select="$tree.indexes" />
-		</xsl:call-template>
+		<xsl:choose>
+			<xsl:when test="$html_mode='simple'">
+				<xsl:call-template name="index_item">
+					<xsl:with-param name="prefix" select="''" />
+					<xsl:with-param name="enabled" select="0" />
+					<xsl:with-param name="tree" select="$tree.indexes" />
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:if test="not(count(./index) = '0')">
+					<xsl:for-each select="./index">
+						<xsl:variable name="num"><xsl:value-of select="position()" />.</xsl:variable>
+						<xsl:call-template name="index_sidemenu">
+							<xsl:with-param name="id" select="./@name" />
+							<xsl:with-param name="class" select="''" />
+							<xsl:with-param name="num" select="$num" />
+							<xsl:with-param name="prefix" select="''" />
+						</xsl:call-template>
+					</xsl:for-each>
+				</xsl:if>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!-- ================================================================================= -->
@@ -174,5 +193,67 @@
 		>
 			<xsl:value-of select="$num" /><xsl:text> </xsl:text><xsl:value-of select="normalize-space($t/title)" />
 		</a>
+	</xsl:template>
+
+	<xsl:template name="index_sidemenu">
+		<xsl:param name="id" select="''" />
+		<xsl:param name="class" select="''" />
+		<xsl:param name="num" select="''" />
+		<xsl:param name="prefix" select="''" />
+		<xsl:param name="level" select="''" />
+
+		<xsl:variable name="t" select="key('itemid', $id)" />
+
+		<xsl:variable name="mh">
+			<xsl:choose>
+				<xsl:when test="$html.book != '1'"><xsl:value-of select="$html.file" />#<xsl:value-of select="$id" /></xsl:when>
+				<xsl:when test="$html.index.prefix!=''"><xsl:value-of select="$html.index.prefix" />#<xsl:value-of select="$id" /></xsl:when>
+				<xsl:otherwise>#</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="mc">
+			<xsl:choose>
+				<xsl:when test="$html.book != '1'">;</xsl:when>
+				<xsl:otherwise>mikan.page.showbook('#<xsl:value-of select="$id" />');</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:variable name="ll">
+			<xsl:choose>
+				<xsl:when test="$level != '1'">second</xsl:when>
+				<xsl:otherwise>third</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:variable name="lv">
+			<xsl:value-of select="count(./index)" />
+		</xsl:variable>
+
+		<li>
+			<a
+				href="{$mh}"
+				target="{$html.target}"
+				class="{$class}"
+				onclick="{$mc}"
+			>
+				<i class="glyphicon glyphicon-book"><xsl:text> </xsl:text></i><xsl:text> </xsl:text>
+				<xsl:value-of select="$num" /><xsl:text> </xsl:text><xsl:value-of select="normalize-space($t/title)" />
+			</a>
+
+			<xsl:if test="not($lv = '0')">
+				<ul class="nav nav-{$ll}-level">
+					<xsl:for-each select="./index">
+						<xsl:variable name="numm"><xsl:value-of select="$num" /><xsl:value-of select="position()" />.</xsl:variable>
+						<xsl:call-template name="index_sidemenu">
+							<xsl:with-param name="id" select="./@name" />
+							<xsl:with-param name="class" select="''" />
+							<xsl:with-param name="num" select="$numm" />
+							<xsl:with-param name="prefix" select="''" />
+							<xsl:with-param name="level" select="'1'" />
+						</xsl:call-template>
+					</xsl:for-each>
+				</ul>
+			</xsl:if>
+		</li>
 	</xsl:template>
 </xsl:stylesheet>

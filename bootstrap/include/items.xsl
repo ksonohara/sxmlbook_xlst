@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- ______________________________________________________________________ -->
 <!--                                                                        -->
-<!--  sXMLBook XSLT Ver0.2.1_4                                              -->
+<!--  sXMLBook XSLT Ver0.3.0_0                                              -->
 <!--                                                                        -->
-<!--   Copyright (C) 2007-14 K.Sonohara All Right Reserved.                 -->
+<!--   Copyright (C) 2007-15 K.Sonohara All Right Reserved.                 -->
+<!--   Code released under [Mozilla Public License, version 2.0]            -->
 <!-- ______________________________________________________________________ -->
 <!--                                                                        -->
-<!--   XHTML アイテム群                                                     -->
+<!--   sXML本体                                                             -->
 <!-- ______________________________________________________________________ -->
 
 <xsl:stylesheet
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0"
 >
@@ -64,7 +66,6 @@
 		<xsl:param name="clazz" select="''" />
 		<xsl:param name="index_number" select="''" />
 
-
 		<xsl:variable name="ch">
 			<xsl:choose>
 				<xsl:when test="$html.book != '1'"> </xsl:when>
@@ -72,134 +73,136 @@
 			</xsl:choose>
 		</xsl:variable>
 
-		<div id="{./@id}" class="{$ch} col-xs-12">
-			<div class="page-header">
-				<h3>
-					<xsl:call-template name="icon">
-						<xsl:with-param name="name" select="$title.icon"/>
-					</xsl:call-template>
-					<xsl:if test="$item.prefix = '1'">
-						<xsl:value-of select="$index_number" />
-					</xsl:if>
-					<xsl:value-of select="./title" />
-				</h3>
-			</div>
+		<div class="row">
+			<div id="{./@id}" class="{$ch} col-lg-12">
+				<div class="page-header">
+					<h3>
+						<xsl:call-template name="icon">
+							<xsl:with-param name="name" select="$title.icon"/>
+						</xsl:call-template>
+						<xsl:if test="$item.prefix = '1'">
+							<xsl:value-of select="$index_number" />
+						</xsl:if>
+						<xsl:value-of select="./title" />
+					</h3>
+				</div>
 
-			<xsl:variable name="h4">
-				<xsl:value-of select="normalize-space(./date)" />
-				<xsl:value-of select="normalize-space(./description)" />
-				<xsl:value-of select="normalize-space(./icon)" />
-				<xsl:value-of select="normalize-space(./@new)" />
-				<xsl:value-of select="normalize-space(./@make)" />
-				<xsl:value-of select="normalize-space(./@deprecate)" />
-				<xsl:value-of select="normalize-space(./@update)" />
-			</xsl:variable>
+				<xsl:variable name="h4">
+					<xsl:value-of select="normalize-space(./date)" />
+					<xsl:value-of select="normalize-space(./description)" />
+					<xsl:value-of select="normalize-space(./icon)" />
+					<xsl:value-of select="normalize-space(./@new)" />
+					<xsl:value-of select="normalize-space(./@make)" />
+					<xsl:value-of select="normalize-space(./@deprecate)" />
+					<xsl:value-of select="normalize-space(./@update)" />
+				</xsl:variable>
 
-			<xsl:if test="not($h4 = '')">
-				<h5>
-					<xsl:if test="not(normalize-space(./date) = '')">
-						<xsl:value-of select="./date" /><xsl:text> </xsl:text>
-					</xsl:if>
-					<xsl:if test="not(normalize-space(./description) = '')">
+				<xsl:if test="not($h4 = '')">
+					<h5>
+						<xsl:if test="not(normalize-space(./date) = '')">
+							<xsl:value-of select="./date" /><xsl:text> </xsl:text>
+						</xsl:if>
+						<xsl:if test="not(normalize-space(./description) = '')">
 
-						<xsl:value-of select="./description" /><xsl:text> </xsl:text>
-					</xsl:if>
+							<xsl:value-of select="./description" /><xsl:text> </xsl:text>
+						</xsl:if>
 
-					<xsl:if test="not(normalize-space(./@new) = '')">
-						<span class="label label-primary">New</span>
-					</xsl:if>
-					<xsl:if test="not(normalize-space(./@update) = '')">
-						<span class="label label-primary">更新</span>
-					</xsl:if>
-					<xsl:if test="not(normalize-space(./@make) = '')">
-						<span class="label label-default">編集中</span>
-					</xsl:if>
-					<xsl:if test="not(normalize-space(./@deprecate) = '')">
-						<span class="label label-danger">廃止予定</span>
-					</xsl:if>
+						<xsl:if test="not(normalize-space(./@new) = '')">
+							<span class="label label-primary">New</span>
+						</xsl:if>
+						<xsl:if test="not(normalize-space(./@update) = '')">
+							<span class="label label-primary">更新</span>
+						</xsl:if>
+						<xsl:if test="not(normalize-space(./@make) = '')">
+							<span class="label label-default">編集中</span>
+						</xsl:if>
+						<xsl:if test="not(normalize-space(./@deprecate) = '')">
+							<span class="label label-danger">廃止予定</span>
+						</xsl:if>
 
-					<xsl:for-each select="./icon">
-						<xsl:text> </xsl:text>
-						<span class="label label-default">
-							<xsl:value-of select="." />
-						</span>
-					</xsl:for-each>
-				</h5>
-			</xsl:if>
+						<xsl:for-each select="./icon">
+							<xsl:text> </xsl:text>
+							<span class="label label-default">
+								<xsl:value-of select="." />
+							</span>
+						</xsl:for-each>
+					</h5>
+				</xsl:if>
 
-			<xsl:for-each select="./*">
-				<xsl:choose>
-					<xsl:when test="name() = 'title'"> </xsl:when>
-					<xsl:when test="name() = 'date'"> </xsl:when>
-					<xsl:when test="name() = 'description'"> </xsl:when>
-					<xsl:when test="name() = 'icon'"> </xsl:when>
-					<xsl:when test="name() = 'links'"> </xsl:when>
-					<xsl:when test="name() = 'terms'"> </xsl:when>
-					<xsl:otherwise>
-						<xsl:variable name="of">
-							<xsl:choose>
-								<xsl:when test="./@offset = 'false'"><xsl:text></xsl:text></xsl:when>
-								<xsl:when test="./@offset != ''">col-xs-offset-<xsl:value-of select="./@offset" /></xsl:when>
-								<xsl:otherwise><xsl:text></xsl:text></xsl:otherwise>
-							</xsl:choose>
-						</xsl:variable>
-						<xsl:variable name="cl">
-							<xsl:choose>
-								<xsl:when test="./@column = 'false'"><xsl:text></xsl:text></xsl:when>
-								<xsl:when test="./@column != ''">col-xs-<xsl:value-of select="./@column" /></xsl:when>
-								<xsl:otherwise>col-xs-12</xsl:otherwise>
-							</xsl:choose>
-						</xsl:variable>
-						<xsl:variable name="cz">
-							<xsl:choose>
-								<xsl:when test="./@clazz != ''"><xsl:text> </xsl:text><xsl:value-of select="./@clazz" /></xsl:when>
-								<xsl:otherwise><xsl:text></xsl:text></xsl:otherwise>
-							</xsl:choose>
-						</xsl:variable>
-						<div class="{$of} {$cl}{$cz}">
-							<xsl:apply-templates select="." />
-						</div>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:for-each>
-
-			<xsl:if test="not(count(./links) = '0')">
-				<xsl:call-template name="linklist">
-					<xsl:with-param name="target" select="./links"/>
-					<xsl:with-param name="id" select="'itemid'"/>
-					<xsl:with-param name="title" select="'関連項目'"/>
-				</xsl:call-template>
-			</xsl:if>
-
-			<xsl:if test="not(count(./terms) = '0')">
-				<xsl:call-template name="linklist">
-					<xsl:with-param name="target" select="./terms"/>
-					<xsl:with-param name="id" select="'termid'"/>
-					<xsl:with-param name="title" select="'関連用語'"/>
-				</xsl:call-template>
-			</xsl:if>
-
-			<xsl:if test="$top.mark = '1'">
-				<div class="col-xs-offset-11 col-xs-1 hidden-xs">
+				<xsl:for-each select="./*">
 					<xsl:choose>
-						<xsl:when test="$html.book != '1'">
-							<a href="#">
-								<xsl:call-template name="icon">
-									<xsl:with-param name="name" select="'circle-arrow-up'"/>
-								</xsl:call-template>
-							</a>
-						</xsl:when>
+						<xsl:when test="name() = 'title'"> </xsl:when>
+						<xsl:when test="name() = 'date'"> </xsl:when>
+						<xsl:when test="name() = 'description'"> </xsl:when>
+						<xsl:when test="name() = 'icon'"> </xsl:when>
+						<xsl:when test="name() = 'links'"> </xsl:when>
+						<xsl:when test="name() = 'terms'"> </xsl:when>
 						<xsl:otherwise>
-							<a href="#" onclick="mikan.page.showbook(null); ">
-								<xsl:call-template name="icon">
-									<xsl:with-param name="name" select="'circle-arrow-up'"/>
-								</xsl:call-template>
-							</a>
+							<xsl:variable name="of">
+								<xsl:choose>
+									<xsl:when test="./@offset = 'false'"><xsl:text></xsl:text></xsl:when>
+									<xsl:when test="./@offset != ''">col-lg-offset-<xsl:value-of select="./@offset" /></xsl:when>
+									<xsl:otherwise><xsl:text></xsl:text></xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
+							<xsl:variable name="cl">
+								<xsl:choose>
+									<xsl:when test="./@column = 'false'"><xsl:text></xsl:text></xsl:when>
+									<xsl:when test="./@column != ''">col-lg-<xsl:value-of select="./@column" /></xsl:when>
+									<xsl:otherwise>col-lg-12</xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
+							<xsl:variable name="cz">
+								<xsl:choose>
+									<xsl:when test="./@clazz != ''"><xsl:text> </xsl:text><xsl:value-of select="./@clazz" /></xsl:when>
+									<xsl:otherwise><xsl:text></xsl:text></xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
+							<div class="{$of} {$cl}{$cz}">
+								<xsl:apply-templates select="." />
+							</div>
 						</xsl:otherwise>
 					</xsl:choose>
-				</div>
-			</xsl:if>
-			<xsl:text>　</xsl:text>
+				</xsl:for-each>
+
+				<xsl:if test="not(count(./links) = '0')">
+					<xsl:call-template name="linklist">
+						<xsl:with-param name="target" select="./links"/>
+						<xsl:with-param name="id" select="'itemid'"/>
+						<xsl:with-param name="title" select="'関連項目'"/>
+					</xsl:call-template>
+				</xsl:if>
+
+				<xsl:if test="not(count(./terms) = '0')">
+					<xsl:call-template name="linklist">
+						<xsl:with-param name="target" select="./terms"/>
+						<xsl:with-param name="id" select="'termid'"/>
+						<xsl:with-param name="title" select="'関連用語'"/>
+					</xsl:call-template>
+				</xsl:if>
+
+				<xsl:if test="$top.mark = '1'">
+					<div class="col-lg-offset-11 col-lg-1 hidden-xs">
+						<xsl:choose>
+							<xsl:when test="$html.book != '1'">
+								<a href="#">
+									<xsl:call-template name="icon">
+										<xsl:with-param name="name" select="'circle-arrow-up'"/>
+									</xsl:call-template>
+								</a>
+							</xsl:when>
+							<xsl:otherwise>
+								<a href="#" onclick="mikan.page.showbook(null); ">
+									<xsl:call-template name="icon">
+										<xsl:with-param name="name" select="'circle-arrow-up'"/>
+									</xsl:call-template>
+								</a>
+							</xsl:otherwise>
+						</xsl:choose>
+					</div>
+				</xsl:if>
+				<xsl:text>　</xsl:text>
+			</div>
 		</div>
 	</xsl:template>
 
@@ -556,7 +559,7 @@
 		</xsl:variable>
 
 		<div class="container">
-			<div class="col-offset-xs-0 col-xs-8">
+			<div class="col-offset-lg-0 col-lg-8">
 				<xsl:choose>
 					<xsl:when test="normalize-space(./description) = ''"></xsl:when>
 					<xsl:otherwise>
@@ -608,7 +611,7 @@
 		</div>
 
 		<xsl:for-each select="./value">
-			<div class="col-offset-xs-0 col-xs-8">
+			<div class="col-offset-lg-0 col-lg-8">
 				<xsl:call-template name="icon">
 					<xsl:with-param name="name" select="'arrow-right'"/>
 				</xsl:call-template>
@@ -631,7 +634,7 @@
 		</xsl:for-each>
 
 		<!--xsl:for-each select="./text">
-			<div class="col-offset-xs-0 col-xs-8">
+			<div class="col-offset-lg-0 col-lg-8">
 				<xsl:apply-templates select="." />
 			</div>
 		</xsl:for-each-->
@@ -648,7 +651,7 @@
 		</xsl:variable>
 
 		<div class="row">
-			<div class="col-xs-6">
+			<div class="col-lg-6">
 				<p class="text-center">
 					<xsl:choose>
 						<xsl:when test="normalize-space(./@right) = ''">
@@ -665,7 +668,7 @@
 					</xsl:choose>
 				</p>
 			</div>
-			<div class="col-xs-6">
+			<div class="col-lg-6">
 				<p class="text-center">
 					<xsl:choose>
 						<xsl:when test="normalize-space(./@right) = ''">
@@ -810,7 +813,7 @@
 		</xsl:variable>
 
 		<div class="row">
-			<div class="col-xs-10">
+			<div class="col-lg-10">
 				<div class="media">
 					<xsl:choose>
 						<xsl:when test="$image.click = '1'">
@@ -902,7 +905,7 @@
 	<!-- ================================================================================= -->
 	<!-- 内容 イメージ -->
 	<xsl:template match="image">
-		<div class="col-xs-11">
+		<div class="col-lg-11">
 			<xsl:choose>
 				<xsl:when test="normalize-space(./title) = ''"></xsl:when>
 				<xsl:otherwise>
@@ -945,7 +948,7 @@
 
 		<div class="row">
 			<xsl:for-each select="./thumbnail">
-				<div class="col-xs-3">
+				<div class="col-lg-3">
 					<xsl:call-template name="urlimage">
 						<xsl:with-param name="title" select="normalize-space(./title)" />
 						<xsl:with-param name="showurl" select="0" />
@@ -970,7 +973,7 @@
 	<!-- ================================================================================= -->
 	<!-- 内容 セパレータ -->
 	<xsl:template match="separator">
-		<div class="col-xs-12">
+		<div class="col-lg-12">
 			<hr />
 		</div>
 	</xsl:template>
@@ -978,7 +981,7 @@
 	<!-- ================================================================================= -->
 	<!-- 内容 改行 -->
 	<xsl:template match="newline">
-		<div class="col-xs-12">
+		<div class="col-lg-12">
 			<br />
 		</div>
 	</xsl:template>
@@ -986,7 +989,7 @@
 	<!-- ================================================================================= -->
 	<!-- 内容 コード -->
 	<xsl:template match="code">
-		<div class="col-xs-12">
+		<div class="col-lg-12">
 			<xsl:call-template name="code">
 				<xsl:with-param name="code" select="./text()"/>
 			</xsl:call-template>
@@ -1064,7 +1067,7 @@
 			<xsl:value-of select="normalize-space(./title)" />
 		</h4>
 
-		<div class="col-xs-offset-0 col-xs-12">
+		<div class="col-lg-offset-0 col-lg-12">
 			<xsl:call-template name="urltext">
 				<xsl:with-param name="title" select="normalize-space(./title)" />
 				<xsl:with-param name="css" select="content_url"/>
@@ -1077,7 +1080,7 @@
 		<xsl:choose>
 			<xsl:when test="normalize-space(./text)=''"> </xsl:when>
 			<xsl:otherwise>
-				<div class="col-xs-offset-0 col-xs-12">
+				<div class="col-lg-offset-0 col-lg-12">
 					<xsl:call-template name="uitext">
 						<xsl:with-param name="text" select="./text"/>
 						<xsl:with-param name="type" select="'p'"/>
@@ -1109,8 +1112,8 @@
 
 			<div class="panel-footer">
 				<div class="form-group">
-					<label for="{$name}_{$number}" class="{$name}_{$number} control-label col-xs-1">回答</label>
-					<div class="controls col-xs-10">
+					<label for="{$name}_{$number}" class="{$name}_{$number} control-label col-lg-1">回答</label>
+					<div class="controls col-lg-10">
 						<div class="btn-group" data-toggle="buttons">
 							<xsl:for-each select="./select">
 								<button
@@ -1138,7 +1141,7 @@
 	<xsl:template match="questions">
 		<xsl:variable name="name" select="normalize-space(./name)" />
 		<form name="{./name}">
-			<div class="col-xs-8">
+			<div class="col-lg-8">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<xsl:call-template name="icon">
@@ -1283,7 +1286,7 @@
 			</xsl:choose>
 		</xsl:variable>
 
-		<div class="col-xs-10">
+		<div class="col-lg-10">
 			<a
 				target="{$t}"
 				href="{$url}"
@@ -1301,7 +1304,7 @@
 		<xsl:choose>
 			<xsl:when test="normalize-space(../../item/@id) != ''">
 				<div class="container">
-					<div class="col-xs-10">
+					<div class="col-lg-10">
 						<xsl:call-template name="index_a">
 							<xsl:with-param name="id" select="$i" />
 							<xsl:with-param name="class" select="''" />
@@ -1327,7 +1330,7 @@
 		<xsl:choose>
 			<xsl:when test="normalize-space(../../item/@id) != ''">
 				<div class="container">
-					<div class="col-xs-10">
+					<div class="col-lg-10">
 						<a
 							target="_TOP"
 							onclick="location.href = 'mai' + 'lto:'+ '{normalize-space(./account)}' + '&#64;' + '{normalize-space(./domain)}';"
@@ -1442,7 +1445,7 @@
 
 		<xsl:if test="not(count($target) = '0')">
 			<div class="container">
-				<div class="col-xs-12">
+				<div class="col-lg-12">
 					<xsl:call-template name="uitext">
 						<xsl:with-param name="type" select="'h4'"/>
 						<xsl:with-param name="mark" select="'forward'"/>
