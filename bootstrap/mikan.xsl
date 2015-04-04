@@ -26,6 +26,7 @@
 	<!-- インポート -->
 	<xsl:include href="include/constant.xsl"/>
 	<xsl:include href="include/params.xsl"/>
+	<xsl:include href="include/variables.xsl"/>
 	<xsl:include href="include/id.xsl"/>
 	<xsl:include href="include/indexes.xsl"/>
 	<xsl:include href="include/header.xsl"/>
