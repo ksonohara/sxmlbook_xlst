@@ -7,7 +7,7 @@
 <!--   Code released under [Mozilla Public License, version 2.0]            -->
 <!-- ______________________________________________________________________ -->
 <!--                                                                        -->
-<!--   sXML本体                                                             -->
+<!--   XSLT Indexes                                                         -->
 <!-- ______________________________________________________________________ -->
 
 <xsl:stylesheet
@@ -17,7 +17,7 @@
 	version="1.0"
 >
 	<!-- ================================================================================= -->
-	<!-- 目次 -->
+	<!-- Index -->
 	<xsl:template name="indexes">
 		<xsl:choose>
 			<xsl:when test="$html_mode='simple'">
@@ -102,7 +102,7 @@
 					<xsl:variable name="u">
 						<xsl:choose>
 							<xsl:when test="$html.index.prefix=''">#</xsl:when>
-							<xsl:otherwise><xsl:value-of select="$html.index.prefix" /></xsl:otherwise>
+							<xsl:otherwise><xsl:value-of select="$index_prefix" /></xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
 
@@ -113,10 +113,10 @@
 							<xsl:when test="$enabled = '1'">1</xsl:when>
 							<xsl:otherwise>
 								<xsl:choose>
-									<xsl:when test="$html.index.name = ''">1</xsl:when>
+									<xsl:when test="$index_name = ''">1</xsl:when>
 									<xsl:otherwise>
 										<xsl:choose>
-											<xsl:when test="$html.index.name = @name">1</xsl:when>
+											<xsl:when test="$index_name = @name">1</xsl:when>
 											<xsl:otherwise>0</xsl:otherwise>
 										</xsl:choose>
 									</xsl:otherwise>
@@ -173,14 +173,14 @@
 
 		<xsl:variable name="mh">
 			<xsl:choose>
-				<xsl:when test="$html.book != '1'"><xsl:value-of select="$html.file" />#<xsl:value-of select="$id" /></xsl:when>
-				<xsl:when test="$html.index.prefix!=''"><xsl:value-of select="$html.index.prefix" />#<xsl:value-of select="$id" /></xsl:when>
+				<xsl:when test="$html_book != '1'"><xsl:value-of select="$html.file" />#<xsl:value-of select="$id" /></xsl:when>
+				<xsl:when test="$index_prefix!=''"><xsl:value-of select="$index_prefix" />#<xsl:value-of select="$id" /></xsl:when>
 				<xsl:otherwise>#</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="mc">
 			<xsl:choose>
-				<xsl:when test="$html.book != '1'">;</xsl:when>
+				<xsl:when test="$html_book != '1'">;</xsl:when>
 				<xsl:otherwise>mikan.page.showbook('#<xsl:value-of select="$id" />');</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -195,6 +195,8 @@
 		</a>
 	</xsl:template>
 
+	<!-- ================================================================================= -->
+	<!-- Index sidemenu -->
 	<xsl:template name="index_sidemenu">
 		<xsl:param name="id" select="''" />
 		<xsl:param name="class" select="''" />
@@ -206,14 +208,14 @@
 
 		<xsl:variable name="mh">
 			<xsl:choose>
-				<xsl:when test="$html.book != '1'"><xsl:value-of select="$html.file" />#<xsl:value-of select="$id" /></xsl:when>
-				<xsl:when test="$html.index.prefix!=''"><xsl:value-of select="$html.index.prefix" />#<xsl:value-of select="$id" /></xsl:when>
+				<xsl:when test="$html_book != '1'"><xsl:value-of select="$html.file" />#<xsl:value-of select="$id" /></xsl:when>
+				<xsl:when test="$index_prefix!=''"><xsl:value-of select="$index_prefix" />#<xsl:value-of select="$id" /></xsl:when>
 				<xsl:otherwise>#</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="mc">
 			<xsl:choose>
-				<xsl:when test="$html.book != '1'">;</xsl:when>
+				<xsl:when test="$html_book != '1'">;</xsl:when>
 				<xsl:otherwise>mikan.page.showbook('#<xsl:value-of select="$id" />');</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -236,8 +238,15 @@
 				class="{$class}"
 				onclick="{$mc}"
 			>
-				<i class="glyphicon glyphicon-book"><xsl:text> </xsl:text></i><xsl:text> </xsl:text>
+				<xsl:call-template name="webfont">
+					<xsl:with-param name="name" select="$title_icon"/>
+				</xsl:call-template>
+				<xsl:text> </xsl:text>
 				<xsl:value-of select="$num" /><xsl:text> </xsl:text><xsl:value-of select="normalize-space($t/title)" />
+
+				<xsl:if test="not($lv = '0')">
+					<span class="fa arrow"><xsl:text> </xsl:text></span>
+				</xsl:if>
 			</a>
 
 			<xsl:if test="not($lv = '0')">

@@ -36,7 +36,18 @@
 						<span class="icon-bar"><xsl:text> </xsl:text></span>
 						<span class="icon-bar"><xsl:text> </xsl:text></span>
 					</button>
-					<a class="navbar-brand" href="#"><xsl:value-of select="$document_title" /></a>
+					<xsl:choose>
+						<xsl:when test="$html_book != '1'">
+							<a class="navbar-brand" href="#">
+								<xsl:value-of select="$document_title" />
+							</a>
+						</xsl:when>
+						<xsl:otherwise>
+							<a class="navbar-brand" href="#" onclick="mikan.page.showbook(null); ">
+								<xsl:value-of select="$document_title" />
+							</a>
+						</xsl:otherwise>
+					</xsl:choose>
 				</div>
 
 				<ul class="nav navbar-top-links navbar-right">
@@ -75,18 +86,14 @@
 	<xsl:template name="header_main">
 		<div class="navbar-header">
 			<xsl:choose>
-				<xsl:when test="$html.book != '1'">
+				<xsl:when test="$html_book != '1'">
 					<a class="navbar-brand" href="#">
-						<xsl:if test="$html.title != ''"><xsl:value-of select="$html.title" /> [</xsl:if>
-						<xsl:value-of select="./info/title" />
-						<xsl:if test="$html.title != ''">]</xsl:if>
+						<xsl:value-of select="$document_title" />
 					</a>
 				</xsl:when>
 				<xsl:otherwise>
 					<a class="navbar-brand" href="#" onclick="mikan.page.showbook(null); ">
-						<xsl:if test="$html.title != ''"><xsl:value-of select="$html.title" /> [</xsl:if>
-						<xsl:value-of select="./info/title" />
-						<xsl:if test="$html.title != ''">]</xsl:if>
+						<xsl:value-of select="$document_title" />
 					</a>
 				</xsl:otherwise>
 			</xsl:choose>

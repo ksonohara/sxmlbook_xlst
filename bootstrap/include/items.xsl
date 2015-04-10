@@ -7,7 +7,7 @@
 <!--   Code released under [Mozilla Public License, version 2.0]            -->
 <!-- ______________________________________________________________________ -->
 <!--                                                                        -->
-<!--   sXML本体                                                             -->
+<!--   sXMLBook                                                             -->
 <!-- ______________________________________________________________________ -->
 
 <xsl:stylesheet
@@ -20,7 +20,7 @@
 	<!-- 内容 -->
 	<xsl:template name="items">
 		<xsl:param name="prefix" select="''" />
-		<xsl:param name="clazz" select="$clazz.title" />
+		<xsl:param name="clazz" select="''" />
 		<xsl:param name="indent" select="0" />
 		<xsl:param name="enabled" select="0" />
 
@@ -32,10 +32,10 @@
 				<xsl:variable name="on">
 					<xsl:choose>
 						<xsl:when test="$enabled = '1'">1</xsl:when>
-						<xsl:when test="$html.index.name=''">1</xsl:when>
+						<xsl:when test="$index_name=''">1</xsl:when>
 						<xsl:otherwise>
 							<xsl:choose>
-								<xsl:when test="$html.index.name = @name">1</xsl:when>
+								<xsl:when test="$index_name = @name">1</xsl:when>
 								<xsl:otherwise>0</xsl:otherwise>
 							</xsl:choose>
 						</xsl:otherwise>
@@ -68,7 +68,7 @@
 
 		<xsl:variable name="ch">
 			<xsl:choose>
-				<xsl:when test="$html.book != '1'"> </xsl:when>
+				<xsl:when test="$html_book != '1'"> </xsl:when>
 				<xsl:otherwise>hidden</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -77,8 +77,8 @@
 			<div id="{./@id}" class="{$ch} col-lg-12">
 				<div class="page-header">
 					<h3>
-						<xsl:call-template name="icon">
-							<xsl:with-param name="name" select="$title.icon"/>
+						<xsl:call-template name="webfont">
+							<xsl:with-param name="name" select="$title_icon"/>
 						</xsl:call-template>
 						<xsl:if test="$item.prefix = '1'">
 							<xsl:value-of select="$index_number" />
@@ -184,16 +184,16 @@
 				<xsl:if test="$top.mark = '1'">
 					<div class="col-lg-offset-11 col-lg-1 hidden-xs">
 						<xsl:choose>
-							<xsl:when test="$html.book != '1'">
+							<xsl:when test="$html_book != '1'">
 								<a href="#">
-									<xsl:call-template name="icon">
+									<xsl:call-template name="webfont">
 										<xsl:with-param name="name" select="'circle-arrow-up'"/>
 									</xsl:call-template>
 								</a>
 							</xsl:when>
 							<xsl:otherwise>
 								<a href="#" onclick="mikan.page.showbook(null); ">
-									<xsl:call-template name="icon">
+									<xsl:call-template name="webfont">
 										<xsl:with-param name="name" select="'circle-arrow-up'"/>
 									</xsl:call-template>
 								</a>
@@ -302,8 +302,8 @@
 								<td>
 									<xsl:choose>
 										<xsl:when test="normalize-space(./@type) = '1'">1個必須</xsl:when>
-										<xsl:when test="normalize-space(./@type) = '+'">1個以上必須する</xsl:when>
-										<xsl:when test="normalize-space(./@type) = '?'">なしまたは1個必須</xsl:when>
+										<xsl:when test="normalize-space(./@type) = '+'">1個以上必須</xsl:when>
+										<xsl:when test="normalize-space(./@type) = '?'">なしまたは1個</xsl:when>
 										<xsl:when test="normalize-space(./@type) = '*'">必須</xsl:when>
 										<xsl:otherwise><xsl:text> </xsl:text></xsl:otherwise>
 									</xsl:choose>
@@ -462,7 +462,7 @@
 			<a
 				href="#term_{./text()}"
 			>
-				<xsl:call-template name="icon">
+				<xsl:call-template name="webfont">
 					<xsl:with-param name="name" select="'search'"/>
 				</xsl:call-template>
 				<xsl:value-of select="$n/title" />
@@ -479,7 +479,7 @@
 			<a
 				id="term_{./@termid}"
 			>
-				<xsl:call-template name="icon">
+				<xsl:call-template name="webfont">
 					<xsl:with-param name="name" select="'pushpin'"/>
 				</xsl:call-template>
 			</a>
@@ -497,7 +497,7 @@
 	<xsl:template match="calender">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<xsl:call-template name="icon">
+				<xsl:call-template name="webfont">
 					<xsl:with-param name="name" select="'calendar'"/>
 				</xsl:call-template>
 				<xsl:value-of select="./title" />
@@ -541,7 +541,7 @@
 						<xsl:text> </xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:call-template name="icon">
+						<xsl:call-template name="webfont">
 							<xsl:with-param name="name" select="'hand-right'"/>
 						</xsl:call-template>
 					</xsl:otherwise>
@@ -584,6 +584,8 @@
 								<a
 									href="{$image_url}{./url}"
 									title="{./title}"
+									class="colorbox"
+									rel="colorbox"
 								>
 									<img
 										src="{$image_url}{$src}"
@@ -612,7 +614,7 @@
 
 		<xsl:for-each select="./value">
 			<div class="col-offset-lg-0 col-lg-8">
-				<xsl:call-template name="icon">
+				<xsl:call-template name="webfont">
 					<xsl:with-param name="name" select="'arrow-right'"/>
 				</xsl:call-template>
 
@@ -704,7 +706,7 @@
 
 		<xsl:for-each select="./value">
 			<p>
-				<xsl:call-template name="icon">
+				<xsl:call-template name="webfont">
 					<xsl:with-param name="name" select="'chevron-right'"/>
 				</xsl:call-template>
 				<xsl:apply-templates select="." />
@@ -821,7 +823,8 @@
 								<xsl:when test="normalize-space(./url) = ''"></xsl:when>
 								<xsl:otherwise>
 									<a
-										class="{$pull}"
+										class="{$pull} colorbox"
+										rel="colorbox"
 										href="{$image_url}{./url}"
 										title="{./title}"
 									>
@@ -839,7 +842,8 @@
 								<xsl:when test="normalize-space(./url) = ''"></xsl:when>
 								<xsl:otherwise>
 									<a
-										class="{$pull}"
+										class="{$pull} colorbox"
+										rel="colorbox"
 										title="{./title}"
 									>
 										<img
@@ -874,7 +878,7 @@
 
 						<xsl:for-each select="./value">
 							<p>
-								<xsl:call-template name="icon">
+								<xsl:call-template name="webfont">
 									<xsl:with-param name="name" select="'chevron-right'"/>
 								</xsl:call-template>
 								<xsl:apply-templates select="." />
@@ -910,7 +914,7 @@
 				<xsl:when test="normalize-space(./title) = ''"></xsl:when>
 				<xsl:otherwise>
 					<h4>
-						<xsl:call-template name="icon">
+						<xsl:call-template name="webfont">
 							<xsl:with-param name="name" select="'picture'"/>
 						</xsl:call-template>
 						<xsl:value-of select="./title" />
@@ -938,7 +942,7 @@
 			<xsl:when test="normalize-space(./title) = ''"></xsl:when>
 			<xsl:otherwise>
 				<h3>
-					<xsl:call-template name="icon">
+					<xsl:call-template name="webfont">
 						<xsl:with-param name="name" select="'picture'"/>
 					</xsl:call-template>
 					<xsl:value-of select="./title" />
@@ -1058,11 +1062,23 @@
 	</xsl:template>
 
 	<!-- ================================================================================= -->
+	<!-- webfont -->
+	<xsl:template match="webfont">
+		<xsl:call-template name="webfont">
+			<xsl:with-param name="name" select="normalize-space(./text())"/>
+			<xsl:with-param name="font" select="normalize-space(./@font)"/>
+			<xsl:with-param name="default" select="''"/>
+		</xsl:call-template>
+	</xsl:template>
+
+	<!-- ================================================================================= -->
 	<!-- 内容 Site -->
 	<xsl:template match="site">
 		<h4>
-			<xsl:call-template name="icon">
-				<xsl:with-param name="name" select="'flag'"/>
+			<xsl:call-template name="webfont">
+				<xsl:with-param name="name" select="normalize-space(./webfont)"/>
+				<xsl:with-param name="font" select="normalize-space(./webfont/@font)"/>
+				<xsl:with-param name="default" select="'flag'"/>
 			</xsl:call-template>
 			<xsl:value-of select="normalize-space(./title)" />
 		</h4>
@@ -1098,7 +1114,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<xsl:call-template name="icon">
+				<xsl:call-template name="webfont">
 					<xsl:with-param name="name" select="'question-sign'"/>
 				</xsl:call-template>
 				<xsl:value-of select="normalize-space($number)" />
@@ -1144,7 +1160,7 @@
 			<div class="col-lg-8">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<xsl:call-template name="icon">
+						<xsl:call-template name="webfont">
 							<xsl:with-param name="name" select="'question-sign'"/>
 						</xsl:call-template>
 						<xsl:value-of select="normalize-space(./number)" />
@@ -1249,6 +1265,8 @@
 				<a
 					href="{$h}"
 					title="{$title}"
+					class="colorbox"
+					rel="colorbox"
 				>
 					<img
 						src="{$image_url}{$src}"
@@ -1361,7 +1379,7 @@
 		<div class="panel panel-{$css}">
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					<xsl:call-template name="icon">
+					<xsl:call-template name="webfont">
 						<xsl:with-param name="name" select="'info-sign'"/>
 					</xsl:call-template>
 					<xsl:value-of select="$title" />
@@ -1400,9 +1418,9 @@
 						<xsl:value-of select="$text" />
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:call-template name="icon">
+					<xsl:call-template name="webfont">
 						<xsl:with-param name="name" select="$mark"/>
-						<xsl:with-param name="type" select="$css"/>
+						<xsl:with-param name="font" select="$css"/>
 					</xsl:call-template>
 					<xsl:value-of select="$text" />
 				</xsl:otherwise>
@@ -1411,28 +1429,43 @@
 	</xsl:template>
 
 	<!-- ================================================================================= -->
-	<!-- アイコン -->
-	<xsl:template name="icon">
-		<xsl:param name="name" select="'flag'" />
-		<xsl:param name="type" select="'glyphicon'" />
+	<!-- WebFont -->
+	<xsl:template name="webfont">
+		<xsl:param name="name" select="''" />
+		<xsl:param name="font" select="'glyphicon'" />
+		<xsl:param name="default" select="''" />
+
+		<xsl:variable name="_font">
+			<xsl:choose>
+				<xsl:when test="$font != ''"><xsl:value-of select="$font" /></xsl:when>
+				<xsl:otherwise>glyphicon</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 
 		<xsl:variable name="t1">
 			<xsl:choose>
-				<xsl:when test="$type = 'mdfi'"> </xsl:when>
-				<xsl:when test="$type = ''">glyphicon </xsl:when>
-				<xsl:otherwise><xsl:value-of select="$type" /><xsl:text> </xsl:text></xsl:otherwise>
+				<xsl:when test="$_font = 'mdfi'"> </xsl:when>
+				<xsl:when test="$_font = ''">glyphicon </xsl:when>
+				<xsl:otherwise><xsl:value-of select="$_font" /><xsl:text> </xsl:text></xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 
 		<xsl:variable name="t2">
 			<xsl:choose>
-				<xsl:when test="$type = ''">glyphicon-</xsl:when>
-				<xsl:when test="$type = 'mdfi'"> </xsl:when>
-				<xsl:otherwise><xsl:value-of select="$type" />-</xsl:otherwise>
+				<xsl:when test="$_font = ''">glyphicon-</xsl:when>
+				<xsl:when test="$_font = 'mdfi'"> </xsl:when>
+				<xsl:otherwise><xsl:value-of select="$_font" />-</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 
-		<span class="{$t1}{$t2}{$name} {$icon.class}"><xsl:text> </xsl:text></span><xsl:text> </xsl:text>
+		<xsl:variable name="t3">
+			<xsl:choose>
+				<xsl:when test="$name != ''"><xsl:value-of select="$name" /></xsl:when>
+				<xsl:otherwise><xsl:value-of select="$default" /></xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<span class="{$t1}{$t2}{$t3} {$icon_class}"><xsl:text> </xsl:text></span><xsl:text> </xsl:text>
 	</xsl:template>
 
 	<!-- ================================================================================= -->

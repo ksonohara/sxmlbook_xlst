@@ -17,7 +17,7 @@
 	version="1.0"
 >
 	<!-- ================================================================================= -->
-	<!-- フッター -->
+	<!-- footer -->
 	<xsl:template name="footer">
 		<xsl:choose>
 			<xsl:when test="$footer_mode='test'">Error!</xsl:when>
@@ -25,9 +25,11 @@
 				<footer class="container-fluid">
 					<div class="container">
 						<div class="row">
+							<div class="col-lg-12"><p><br /></p></div>
 							<div class="col-lg-6 hidden-xs"><xsl:value-of select="./info/description" /></div>
 							<div class="col-lg-6 hidden-xs"><xsl:value-of select="./info/release" /></div>
-							<div class="col-lg-12 hidden-xs"><xsl:value-of select="./info/copyright" /></div>
+							<div class="col-lg-12"><xsl:value-of select="./info/copyright" /></div>
+							<div class="col-lg-12"><p><br /></p></div>
 						</div>
 					</div>
 				</footer>

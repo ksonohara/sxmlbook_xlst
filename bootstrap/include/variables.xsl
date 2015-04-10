@@ -57,9 +57,23 @@
 		</xsl:choose>
 	</xsl:variable>
 
+	<xsl:variable name="css_jquery_colorbox">
+		<xsl:choose>
+			<xsl:when test="$css.jquery.colorbox != ''"><xsl:value-of select="$css_dir" /><xsl:value-of select="normalize-space($css.jquery.colorbox)" /></xsl:when>
+			<xsl:otherwise></xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
 	<xsl:variable name="css_bootstrap">
 		<xsl:choose>
 			<xsl:when test="$css.bootstrap != ''"><xsl:value-of select="$css_dir" /><xsl:value-of select="normalize-space($css.bootstrap)" /></xsl:when>
+			<xsl:otherwise></xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
+	<xsl:variable name="css_bootstrap_theme">
+		<xsl:choose>
+			<xsl:when test="$css.bootstrap.theme != ''"><xsl:value-of select="$css_dir" /><xsl:value-of select="normalize-space($css.bootstrap.theme)" /></xsl:when>
 			<xsl:otherwise></xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
@@ -113,9 +127,16 @@
 		</xsl:choose>
 	</xsl:variable>
 
-	<xsl:variable name="js_jquery_u">
+	<xsl:variable name="js_jquery_ui">
 		<xsl:choose>
 			<xsl:when test="$js.jquery.ui != ''"><xsl:value-of select="$js_dir" /><xsl:value-of select="normalize-space($js.jquery.ui)" /></xsl:when>
+			<xsl:otherwise></xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
+	<xsl:variable name="js_jquery_colorbox">
+		<xsl:choose>
+			<xsl:when test="$js.jquery.colorbox != ''"><xsl:value-of select="$js_dir" /><xsl:value-of select="normalize-space($js.jquery.colorbox)" /></xsl:when>
 			<xsl:otherwise></xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
@@ -183,17 +204,49 @@
 		</xsl:choose>
 	</xsl:variable>
 
+	<xsl:variable name="html_book">
+		<xsl:choose>
+			<xsl:when test="$html.book != ''"><xsl:value-of select="normalize-space($html.book)" /></xsl:when>
+			<xsl:otherwise></xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
+	<xsl:variable name="title_icon">
+		<xsl:choose>
+			<xsl:when test="$title.icon!= ''"><xsl:value-of select="normalize-space($title.icon)" /></xsl:when>
+			<xsl:otherwise>book</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
+	<xsl:variable name="icon_class">
+		<xsl:choose>
+			<xsl:when test="$icon.class!= ''"><xsl:value-of select="normalize-space($icon.class)" /></xsl:when>
+			<xsl:otherwise></xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
+	<xsl:variable name="index_name">
+		<xsl:choose>
+			<xsl:when test="$index.name!= ''"><xsl:value-of select="normalize-space($index.name)" /></xsl:when>
+			<xsl:otherwise></xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
+	<xsl:variable name="index_prefix">
+		<xsl:choose>
+			<xsl:when test="$index.prefix!= ''"><xsl:value-of select="normalize-space($index.prefix)" /></xsl:when>
+			<xsl:otherwise></xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
 	<xsl:variable name="document_title">
 		<xsl:if test="$html_title != ''"><xsl:value-of select="$html_title" /> [</xsl:if>
 		<xsl:value-of select="/sxmlbook/info/title" />
 		<xsl:if test="$html_title != ''">]</xsl:if>
-		<xsl:if test="$html.index.name != ''">
+		<xsl:if test="$index_name != ''">
 			 - 
-			<xsl:variable name="n" select="key('itemid', $html.index.name)" />
+			<xsl:variable name="n" select="key('itemid', $index_name)" />
 			<xsl:value-of select="normalize-space($n/title)" />
 		</xsl:if>
 	</xsl:variable>
-
-
-
 </xsl:stylesheet>

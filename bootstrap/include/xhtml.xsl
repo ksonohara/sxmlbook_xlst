@@ -33,31 +33,6 @@
 			<meta name="author" content="{/sxmlbook/info/copyright}" />
 			<meta name="description" content="{/sxmlbook/info/description}" />
 
-			<xsl:variable name="js_jquery">
-				<xsl:choose>
-					<xsl:when test="$js.jquery != ''"><xsl:value-of select="$js.dir" /><xsl:value-of select="$js.jquery" /></xsl:when>
-					<xsl:otherwise></xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-			<xsl:variable name="js_jquery_ui">
-				<xsl:choose>
-					<xsl:when test="$js.jquery.ui != ''"><xsl:value-of select="$js.dir" /><xsl:value-of select="$js.jquery.ui" /></xsl:when>
-					<xsl:otherwise></xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-			<xsl:variable name="js_bootstrap">
-				<xsl:choose>
-					<xsl:when test="$js.bootstrap != ''"><xsl:value-of select="$js.dir" /><xsl:value-of select="$js.bootstrap" /></xsl:when>
-					<xsl:otherwise></xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-			<xsl:variable name="js_mikan">
-				<xsl:choose>
-					<xsl:when test="$js.mikan != ''"><xsl:value-of select="$js.dir" /><xsl:value-of select="$js.mikan" /></xsl:when>
-					<xsl:otherwise></xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-
 			<xsl:choose>
 				<xsl:when test="$css_jquery != ''"><link rel="stylesheet" type="text/css" href="{$css_jquery}" /></xsl:when>
 				<xsl:otherwise></xsl:otherwise>
@@ -67,7 +42,15 @@
 				<xsl:otherwise></xsl:otherwise>
 			</xsl:choose>
 			<xsl:choose>
+				<xsl:when test="$css_jquery_colorbox != ''"><link rel="stylesheet" type="text/css" href="{$css_jquery_colorbox}" /></xsl:when>
+				<xsl:otherwise></xsl:otherwise>
+			</xsl:choose>
+			<xsl:choose>
 				<xsl:when test="$css_bootstrap != ''"><link rel="stylesheet" type="text/css" href="{$css_bootstrap}"/></xsl:when>
+				<xsl:otherwise></xsl:otherwise>
+			</xsl:choose>
+			<xsl:choose>
+				<xsl:when test="$css_bootstrap_theme != ''"><link rel="stylesheet" type="text/css" href="{$css_bootstrap_theme}"/></xsl:when>
 				<xsl:otherwise></xsl:otherwise>
 			</xsl:choose>
 			<xsl:choose>
@@ -95,15 +78,15 @@
 				<xsl:otherwise></xsl:otherwise>
 			</xsl:choose>
 
-		<xsl:choose>
-			<xsl:when test="$js_jquery != ''"><script type="text/javascript" src="{$js_jquery}">;</script></xsl:when>
-			<xsl:otherwise></xsl:otherwise>
-		</xsl:choose>
+			<xsl:choose>
+				<xsl:when test="$js_jquery != ''"><script type="text/javascript" src="{$js_jquery}">;</script></xsl:when>
+				<xsl:otherwise></xsl:otherwise>
+			</xsl:choose>
 
-		<xsl:choose>
-			<xsl:when test="$js_jquery_ui != ''"><script type="text/javascript" src="{$js_jquery_ui}">;</script></xsl:when>
-			<xsl:otherwise></xsl:otherwise>
-		</xsl:choose>
+			<xsl:choose>
+				<xsl:when test="$js_jquery_ui != ''"><script type="text/javascript" src="{$js_jquery_ui}">;</script></xsl:when>
+				<xsl:otherwise></xsl:otherwise>
+			</xsl:choose>
 
 			<xsl:comment>
 <![CDATA[[if lt IE 9]>
@@ -119,6 +102,11 @@
 	<!-- ================================================================================= -->
 	<!-- HTMLヘッダ -->
 	<xsl:template name="xhtmlend">
+		<xsl:choose>
+			<xsl:when test="$js_jquery_colorbox != ''"><script type="text/javascript" src="{$js_jquery_colorbox}">;</script></xsl:when>
+			<xsl:otherwise></xsl:otherwise>
+		</xsl:choose>
+
 		<xsl:choose>
 			<xsl:when test="$js_bootstrap != ''"><script type="text/javascript" src="{$js_bootstrap}">;</script></xsl:when>
 			<xsl:otherwise></xsl:otherwise>
@@ -145,7 +133,6 @@
 					var MIKAN_JS_ROOT = '<xsl:value-of select="$js_dir" />';
 					var MIKAN_IMAGE_ROOT = '<xsl:value-of select="$image_dir" />';
 					var MIKAN_HTDOCS_ROOT = '<xsl:value-of select="$html_dir" />';
-					var MIKAN_JS_ON = true;
 					var mikan = {};
 					mikan.resouce = {};
 				</script>
