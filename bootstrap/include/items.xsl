@@ -1003,12 +1003,14 @@
 	<!-- ================================================================================= -->
 	<!-- 内容 テキスト -->
 	<xsl:template match="text">
-		<xsl:call-template name="uitext">
-			<xsl:with-param name="type" select="normalize-space(./@type)"/>
-			<xsl:with-param name="mark" select="normalize-space(./@mark)"/>
-			<xsl:with-param name="text" select="./text()"/>
-			<xsl:with-param name="css" select="normalize-space(./@clazz)"/>
-		</xsl:call-template>
+		<div class="col-lg-12">
+			<xsl:call-template name="uitext">
+				<xsl:with-param name="type" select="normalize-space(./@type)"/>
+				<xsl:with-param name="mark" select="normalize-space(./@mark)"/>
+				<xsl:with-param name="text" select="./text()"/>
+				<xsl:with-param name="css" select="normalize-space(./@clazz)"/>
+			</xsl:call-template>
+		</div>
 	</xsl:template>
 
 	<!-- ================================================================================= -->
@@ -1249,7 +1251,7 @@
 		<xsl:variable name="css">
 			<xsl:choose>
 				<xsl:when test="normalize-space(./size) = ''">content_image</xsl:when>
-				<xsl:otherwise>content_image_<xsl:value-of select="./size" /></xsl:otherwise>
+				<xsl:otherwise><xsl:value-of select="./size" /></xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 

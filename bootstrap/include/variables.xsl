@@ -211,6 +211,13 @@
 		</xsl:choose>
 	</xsl:variable>
 
+	<xsl:variable name="html_loading">
+		<xsl:choose>
+			<xsl:when test="$html.loading != ''"><xsl:value-of select="normalize-space($html.loading)" /></xsl:when>
+			<xsl:otherwise></xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
 	<xsl:variable name="title_icon">
 		<xsl:choose>
 			<xsl:when test="$title.icon!= ''"><xsl:value-of select="normalize-space($title.icon)" /></xsl:when>

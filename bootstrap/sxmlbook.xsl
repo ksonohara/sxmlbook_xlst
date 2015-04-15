@@ -50,70 +50,83 @@
 </xsl:text>
 			
 			<body>
-				<div id="page_loading"><xsl:text> </xsl:text></div>
+				<xsl:if test="$html_loading = '1'">
+					<div id="page_loading"><xsl:text> </xsl:text></div>
+				</xsl:if>
 
-				<div id="page_main">
-					<xsl:choose>
-						<xsl:when test="$html_mode='simple'">
-							<!-- ヘッダー -->
-							<xsl:call-template name="header" />
+				<xsl:choose>
+					<xsl:when test="$html_loading = '1'">
+						<div id="page_main">
+							<xsl:call-template name="content" />
+						</div>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:call-template name="content" />
+					</xsl:otherwise>
+				</xsl:choose>
 
-							<!-- サマリー -->
-							<xsl:if test="$top.indexes = '0'">
-								<br />
-								<br />
-							</xsl:if>
-							<xsl:call-template name="summary" />
-
-							<!-- 目次 -->
-							<xsl:if test="$top.indexes = '1'">
-								<xsl:call-template name="index_menus" />
-							</xsl:if>
-
-							<!-- 内容 -->
-							<div class="container">
-								<xsl:call-template name="items" />
-							</div>
-
-							<!-- フッダー -->
-							<xsl:call-template name="footer" />
-						</xsl:when>
-						<xsl:otherwise>
-							<div id="header">
-								<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-									<xsl:call-template name="header" />
-
-									<div class="navbar-default sidebar" role="navigation">
-										<div class="sidebar-nav navbar-collapse">
-											<ul class="nav" id="side-menu">
-												<xsl:call-template name="indexes" />
-											</ul>
-										</div>
-									</div>
-								</nav>
-							</div>
-
-							<div id="page-wrapper">
-								<!-- summary -->
-								<xsl:if test="$top.indexes = '0'">
-									<br />
-								</xsl:if>
-								<xsl:call-template name="summary" />
-
-								<!-- items -->
-								<xsl:call-template name="items" />
-							</div>
-
-							<!-- footer -->
-							<xsl:call-template name="footer" />
-						</xsl:otherwise>
-					</xsl:choose>
-
-				</div>
 
 				<xsl:call-template name="xhtmlend" />
 			</body><xsl:text>
 </xsl:text>
 		</html>
+	</xsl:template>
+
+	<xsl:template name="content">
+		<xsl:choose>
+			<xsl:when test="$html_mode='simple'">
+				<!-- ヘッダー -->
+				<xsl:call-template name="header" />
+
+				<!-- サマリー -->
+				<xsl:if test="$top.indexes = '0'">
+					<br />
+					<br />
+				</xsl:if>
+				<xsl:call-template name="summary" />
+
+				<!-- 目次 -->
+				<xsl:if test="$top.indexes = '1'">
+					<xsl:call-template name="index_menus" />
+				</xsl:if>
+
+				<!-- 内容 -->
+				<div class="container">
+					<xsl:call-template name="items" />
+				</div>
+
+				<!-- フッダー -->
+				<xsl:call-template name="footer" />
+			</xsl:when>
+			<xsl:otherwise>
+				<div id="header">
+					<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+						<xsl:call-template name="header" />
+
+						<div class="navbar-default sidebar" role="navigation">
+							<div class="sidebar-nav navbar-collapse">
+								<ul class="nav" id="side-menu">
+									<xsl:call-template name="indexes" />
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+
+				<div id="page-wrapper">
+					<!-- summary -->
+					<xsl:if test="$top.indexes = '0'">
+						<br />
+					</xsl:if>
+					<xsl:call-template name="summary" />
+
+					<!-- items -->
+					<xsl:call-template name="items" />
+				</div>
+
+				<!-- footer -->
+				<xsl:call-template name="footer" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

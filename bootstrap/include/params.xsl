@@ -42,7 +42,10 @@
 	<xsl:param name="footer.mode">normal</xsl:param>
 
 	<!-- HTML Book mode (on:1) -->
-	<xsl:param name="html.book">1</xsl:param>
+	<xsl:param name="html.book"> </xsl:param>
+
+	<!-- HTML loading mode (on:1) -->
+	<xsl:param name="html.loading"> </xsl:param>
 
 
 	<!-- CSS -->
@@ -66,7 +69,7 @@
 	<xsl:param name="js.morris">plugins/morris.js</xsl:param>
 	<xsl:param name="js.metismenu">plugins/metisMenu.js</xsl:param>
 	<xsl:param name="js.multiselect">bootstrap-multiselect.js</xsl:param>
-	<xsl:param name="js.mikan">mikan/mikan.js</xsl:param>
+	<xsl:param name="js.mikan">mikan/mikan.min.js</xsl:param>
 
 
 	<!-- Item title icon (bootstrap) -->

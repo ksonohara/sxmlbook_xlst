@@ -21,24 +21,28 @@
 	<xsl:template name="summary">
 		<xsl:if test="not(normalize-space(./summary/title) = '')">
 			<div class="jumbotron" id="summary_jumbotron">
-				<div class="container">
-					<h2><xsl:value-of select="./summary/title" /></h2>
-					<xsl:if test="not(normalize-space(./summary/description) = '')">
-						<h4><xsl:value-of select="./summary/description" /></h4>
-					</xsl:if>
+				<div class="row">
+					<div class="col-lg-12">
+						<h2><xsl:value-of select="./summary/title" /></h2>
+						<xsl:if test="not(normalize-space(./summary/description) = '')">
+							<h4><xsl:value-of select="./summary/description" /></h4>
+						</xsl:if>
+					</div>
 
-					<xsl:for-each select="./summary/*">
-						<xsl:choose>
-							<xsl:when test="name() = 'title'"> </xsl:when>
-							<xsl:when test="name() = 'date'"> </xsl:when>
-							<xsl:when test="name() = 'description'"> </xsl:when>
-							<xsl:when test="name() = 'links'"> </xsl:when>
-							<xsl:when test="name() = 'terms'"> </xsl:when>
-							<xsl:otherwise>
-								<xsl:apply-templates select="." />
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:for-each>
+					<div class="container">
+						<xsl:for-each select="./summary/*">
+							<xsl:choose>
+								<xsl:when test="name() = 'title'"> </xsl:when>
+								<xsl:when test="name() = 'date'"> </xsl:when>
+								<xsl:when test="name() = 'description'"> </xsl:when>
+								<xsl:when test="name() = 'links'"> </xsl:when>
+								<xsl:when test="name() = 'terms'"> </xsl:when>
+								<xsl:otherwise>
+									<xsl:apply-templates select="." />
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:for-each>
+					</div>
 				</div>
 			</div>
 		</xsl:if>
